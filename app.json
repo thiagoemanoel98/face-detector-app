@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "face-detect",
+    "slug": "face-detect",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
