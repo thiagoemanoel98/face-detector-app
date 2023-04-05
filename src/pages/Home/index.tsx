@@ -62,7 +62,7 @@ export default function Home() {
         y: origin.y,
       };
 
-      if (face.smilingProbability > 0.5) {
+      if (face.smilingProbability > 0.7) {
         setEmoji(smiling);
       } else if (
         face.leftEyeOpenProbability > 0.3 &&
