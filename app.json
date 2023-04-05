@@ -1,6 +1,14 @@
 {
   "expo": {
     "name": "face-detect",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ]
+    ],
     "slug": "face-detect",
     "version": "1.0.0",
     "assetBundlePatterns": [
