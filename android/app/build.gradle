@@ -67,10 +67,24 @@ react {
     // hermesFlags = ["-O", "-output-source-map"]
 }
 
+project.ext.react = [
+    enableHermes: (findProperty('expo.jsEngine') ?: "jsc") == "hermes",
+]
+
+def enableHermes = project.ext.react.get("enableHermes", false);
+
+
 // Override `hermesEnabled` by `expo.jsEngine`
 ext {
-  hermesEnabled = (findProperty('expo.jsEngine') ?: "hermes") == "hermes"
+  hermesEnabled = true
 }
+
+if (enableHermes) {
+      debugImplementation files(new File(["node", "--print", "require.resolve('hermes-engine/package.json')"].execute(null, rootDir).text.trim(), "../android/hermes-debug.aar"))
+      releaseImplementation files(new File(["node", "--print", "require.resolve('hermes-engine/package.json')"].execute(null, rootDir).text.trim(), "../android/hermes-release.aar"))
+    } else {
+      implementation jscFlavor
+    }
 
 /**
  * Set this to true to create four separate APKs instead of one,

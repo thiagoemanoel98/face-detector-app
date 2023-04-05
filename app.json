@@ -1,6 +1,10 @@
 {
   "expo": {
     "name": "face-detect",
+    "jsEngine": "hermes",
+    "ios": {
+      "jsEngine": "hermes"
+    },
     "plugins": [
       [
         "expo-camera",
