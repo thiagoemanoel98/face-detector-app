@@ -1,4 +1,4 @@
-package com.facedetect;
+package com.thiago.emanoel98.facedetect;
 
 import android.os.Build;
 import android.os.Bundle;

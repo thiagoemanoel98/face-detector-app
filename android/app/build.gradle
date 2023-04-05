@@ -115,11 +115,11 @@ android {
 
     namespace "com.facedetect"
     defaultConfig {
-        applicationId "com.facedetect"
+        applicationId 'com.thiago.emanoel98.facedetect'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
 
     splits {

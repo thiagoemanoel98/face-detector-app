@@ -18,6 +18,13 @@
       "eas": {
         "projectId": "40f03856-d8bc-4a34-98c2-2dbfbfe48d71"
       }
+    },
+    "android": {
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.thiago.emanoel98.facedetect"
     }
   }
 }

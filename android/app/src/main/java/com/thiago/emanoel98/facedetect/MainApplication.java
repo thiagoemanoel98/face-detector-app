@@ -1,4 +1,4 @@
-package com.facedetect;
+package com.thiago.emanoel98.facedetect;
 
 import android.app.Application;
 import android.content.res.Configuration;
