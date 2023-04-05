@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { ImageSourcePropType, View } from "react-native";
 import { styles } from "./styles";
 import { Camera, CameraType, FaceDetectionResult } from "expo-camera";
 import * as FaceDetector from "expo-face-detector";
 import Animated, {
-    useAnimatedStyle,
+  useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+
+import neutro from "../../assets/neutro.png";
+import smiling from "../../assets/smiling2.png";
+import winkingLeft from "../../assets/winking-left.png";
+import winkingRight from "../../assets/winking-right.png";
 
 export default function Home() {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [ratio, setRatio] = useState("16:9");
   const [faceDetected, setFaceDetected] = useState(false);
+  const [emoji, setEmoji] = useState<ImageSourcePropType>(neutro);
 
   const faceValues = useSharedValue({
     width: 0,
@@ -19,7 +25,7 @@ export default function Home() {
     x: 0,
     y: 0,
   });
-  
+
   useEffect(() => {
     requestPermission();
   }, []);
@@ -34,8 +40,6 @@ export default function Home() {
         { translateX: faceValues.value.x },
         { translateY: faceValues.value.y },
       ],
-      borderColor: "blue",
-      borderWidth: 10,
     }),
     []
   );
@@ -46,24 +50,41 @@ export default function Home() {
 
   function handleFacesDetected({ faces }: FaceDetectionResult) {
     const face = faces[0] as any;
+
     if (face) {
       const { size, origin } = face.bounds;
       setFaceDetected(true);
 
       faceValues.value = {
         width: size.width,
-        height: size.height,
+        height: size.height-40,
         x: origin.x,
         y: origin.y,
       };
+
+      if (face.smilingProbability > 0.5) {
+        setEmoji(smiling);
+      } else if (
+        face.leftEyeOpenProbability > 0.3 &&
+        face.rightEyeOpenProbability < 0.5
+      ) {
+        setEmoji(winkingLeft);
+      } else if (
+        face.leftEyeOpenProbability < 0.5 &&
+        face.rightEyeOpenProbability > 0.3
+      ) {
+        setEmoji(winkingRight);
+      } else {
+        setEmoji(neutro);
+      }
     } else {
       setFaceDetected(false);
     }
   }
 
-   return (
+  return (
     <View style={styles.container}>
-      {faceDetected && <Animated.View style={animatedStyle} />}
+      {faceDetected && <Animated.Image style={animatedStyle} source={emoji} />}
       <Camera
         style={styles.container}
         type={CameraType.front}
@@ -72,7 +93,7 @@ export default function Home() {
         faceDetectorSettings={{
           mode: FaceDetector.FaceDetectorMode.fast,
           detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
-          runClassifications: FaceDetector.FaceDetectorClassifications.none,
+          runClassifications: FaceDetector.FaceDetectorClassifications.all,
           minDetectionInterval: 100,
           tracking: true,
         }}
